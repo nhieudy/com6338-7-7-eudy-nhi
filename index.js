@@ -66,59 +66,71 @@ function quizGame() {
   divBtns.appendChild(option4);
   quiz.appendChild(countDown);
 
-  //Need to find a way to make this less redundant
-  option1.onclick = function (e) {
-    if (option1.textContent === questionsArr[questionNum].answer) {
-      console.log("test");
-      correctAnswer += 1;
-      questionNum += 1;
-      quizGame();
+  quiz.addEventListener("click", function (e) {
+    if (e.target.tagName === "BUTTON" && e.target.textContent !== "Start Quiz!") {
+      var test = e.target.textContent;
+      console.log(test);
+      if (e.target.textContent === questionsArr[questionNum].answer) {
+        console.log("correct");
+        correctAnswer += 1;
+        questionNum += 1;
+        quizGame();
+      } else {
+        console.log("wrong");
+        questionNum += 1;
+        quizGame();
+      }
     }
-    else{
-        console.log("wrong")
-          questionNum += 1;
-      quizGame();
-    }
-  };
-  option2.onclick = function (e) {
-    if (option2.textContent === questionsArr[questionNum].answer) {
-      console.log("test");
-      correctAnswer += 1;
-      questionNum += 1;
-      quizGame();
-    }
-     else{
-        console.log("wrong")
-          questionNum += 1;
-      quizGame();
-    }
-  };
-  option3.onclick = function (e) {
-    if (option3.textContent === questionsArr[questionNum].answer) {
-      console.log("test");
-      correctAnswer += 1;
-      questionNum += 1;
-      quizGame();
-    }
-     else{
-        console.log("wrong")
-          questionNum += 1;
-      quizGame();
-    }
-  };
-  option4.onclick = function (e) {
-    if (option4.textContent === questionsArr[questionNum].answer) {
-      console.log("test");
-      correctAnswer += 1;
-      questionNum += 1;
-      quizGame();
-    }
-     else{
-        console.log("wrong")
-          questionNum += 1;
-      quizGame();
-    }
-  };
+  });
+  //   //Need to find a way to make this less redundant?
+  //   option1.onclick = function (e) {
+  //     if (option1.textContent === questionsArr[questionNum].answer) {
+  //       console.log("test");
+  //       correctAnswer += 1;
+  //       questionNum += 1;
+  //       quizGame();
+  //     } else {
+  //       console.log("wrong");
+  //       questionNum += 1;
+  //       quizGame();
+  //     }
+  //   };
+  //   option2.onclick = function (e) {
+  //     if (option2.textContent === questionsArr[questionNum].answer) {
+  //       console.log("test");
+  //       correctAnswer += 1;
+  //       questionNum += 1;
+  //       quizGame();
+  //     } else {
+  //       console.log("wrong");
+  //       questionNum += 1;
+  //       quizGame();
+  //     }
+  //   };
+  //   option3.onclick = function (e) {
+  //     if (option3.textContent === questionsArr[questionNum].answer) {
+  //       console.log("test");
+  //       correctAnswer += 1;
+  //       questionNum += 1;
+  //       quizGame();
+  //     } else {
+  //       console.log("wrong");
+  //       questionNum += 1;
+  //       quizGame();
+  //     }
+  //   };
+  //   option4.onclick = function (e) {
+  //     if (option4.textContent === questionsArr[questionNum].answer) {
+  //       console.log("test");
+  //       correctAnswer += 1;
+  //       questionNum += 1;
+  //       quizGame();
+  //     } else {
+  //       console.log("wrong");
+  //       questionNum += 1;
+  //       quizGame();
+  //     }
+  //   };
 }
 
 //timer function
@@ -133,6 +145,7 @@ function startTimer() {
   }, 1000);
 }
 
+//stop timer
 function stopTimer() {
   clearInterval(timerId);
 }
