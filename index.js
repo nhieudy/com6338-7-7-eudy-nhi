@@ -30,7 +30,44 @@ var questionsArr = [
 
 //Create start button with ID start-quiz, append to the div quiz
 var quiz = document.getElementById("quiz");
-var button = document.createElement("button");
-button.setAttribute("id", "start-quiz");
-button.textContent = "Start Quiz!";
-quiz.appendChild(button);
+var startBtn = document.createElement("button");
+var question = document.createElement("p");
+var divBtns = document.createElement("div");
+var option1 = document.createElement("button");
+var option2 = document.createElement("button");
+var option3 = document.createElement("button");
+var option4 = document.createElement("button");
+var countDown = document.createElement("p");
+
+startBtn.setAttribute("id", "start-quiz");
+startBtn.textContent = "Start Quiz!";
+quiz.appendChild(startBtn);
+
+//Display questions
+startBtn.addEventListener("click", function () {
+  startBtn.remove();
+  question.textContent = questionsArr[0].question;
+  option1.textContent = questionsArr[0].options[0];
+  option2.textContent = questionsArr[0].options[1];
+  option3.textContent = questionsArr[0].options[2];
+  option4.textContent = questionsArr[0].options[3];
+  countDown.textContent = "30";
+  quiz.appendChild(question);
+  quiz.appendChild(divBtns);
+  divBtns.appendChild(option1);
+  divBtns.appendChild(option2);
+  divBtns.appendChild(option3);
+  divBtns.appendChild(option4);
+  quiz.appendChild(countDown);
+  timer();
+})
+
+//timer function
+function timer(){
+var timerId = setInterval(function () {
+  var time = Number(countDown.textContent);
+  if (time > 0) {
+    countDown.textContent = time - 1;
+  } 
+}, 1000);
+}
