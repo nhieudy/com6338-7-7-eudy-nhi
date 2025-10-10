@@ -45,13 +45,13 @@ startBtn.textContent = "Start Quiz!";
 quiz.appendChild(startBtn);
 
 //Start the game, initial state
-startBtn.addEventListener("click", function () {
+startBtn.onclick =  function () {
+  startBtn.remove();
   quizGame();
   startTimer();
-});
+};
 
 function quizGame() {
-  startBtn.remove();
   question.textContent = questionsArr[questionNum].question;
   option1.textContent = questionsArr[questionNum].options[0];
   option2.textContent = questionsArr[questionNum].options[1];
@@ -65,11 +65,12 @@ function quizGame() {
   divBtns.appendChild(option3);
   divBtns.appendChild(option4);
   quiz.appendChild(countDown);
-
-  quiz.addEventListener("click", function (e) {
-    if (e.target.tagName === "BUTTON" && e.target.textContent !== "Start Quiz!") {
-      var test = e.target.textContent;
-      console.log(test);
+}
+quiz.addEventListener("click", function (e) {
+    if (
+      e.target.tagName === "BUTTON" &&
+      e.target.textContent !== "Start Quiz!"
+    ) {
       if (e.target.textContent === questionsArr[questionNum].answer) {
         console.log("correct");
         correctAnswer += 1;
@@ -131,7 +132,7 @@ function quizGame() {
   //       quizGame();
   //     }
   //   };
-}
+
 
 //timer function
 function startTimer() {
