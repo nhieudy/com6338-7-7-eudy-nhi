@@ -13,7 +13,7 @@ var questionsArr = [
   },
   {
     question: "Where does the Shiba Inu originate from?",
-    answer: "Shiba Inu",
+    answer: "Japan",
     options: ["Japan", "China", "Korea", "Vietnam"],
   },
   {
@@ -29,6 +29,8 @@ var questionsArr = [
 ];
 
 //Create start button with ID start-quiz, append to the div quiz
+var questionNum = 0;
+var correctAnswer = 0;
 var quiz = document.getElementById("quiz");
 var startBtn = document.createElement("button");
 var question = document.createElement("p");
@@ -38,19 +40,23 @@ var option2 = document.createElement("button");
 var option3 = document.createElement("button");
 var option4 = document.createElement("button");
 var countDown = document.createElement("p");
-
 startBtn.setAttribute("id", "start-quiz");
 startBtn.textContent = "Start Quiz!";
 quiz.appendChild(startBtn);
 
-//Display questions
+//Start the game, initial state
 startBtn.addEventListener("click", function () {
+  quizGame();
+  startTimer();
+});
+
+function quizGame() {
   startBtn.remove();
-  question.textContent = questionsArr[0].question;
-  option1.textContent = questionsArr[0].options[0];
-  option2.textContent = questionsArr[0].options[1];
-  option3.textContent = questionsArr[0].options[2];
-  option4.textContent = questionsArr[0].options[3];
+  question.textContent = questionsArr[questionNum].question;
+  option1.textContent = questionsArr[questionNum].options[0];
+  option2.textContent = questionsArr[questionNum].options[1];
+  option3.textContent = questionsArr[questionNum].options[2];
+  option4.textContent = questionsArr[questionNum].options[3];
   countDown.textContent = "30";
   quiz.appendChild(question);
   quiz.appendChild(divBtns);
@@ -59,15 +65,74 @@ startBtn.addEventListener("click", function () {
   divBtns.appendChild(option3);
   divBtns.appendChild(option4);
   quiz.appendChild(countDown);
-  timer();
-})
+
+  //Need to find a way to make this less redundant
+  option1.onclick = function (e) {
+    if (option1.textContent === questionsArr[questionNum].answer) {
+      console.log("test");
+      correctAnswer += 1;
+      questionNum += 1;
+      quizGame();
+    }
+    else{
+        console.log("wrong")
+          questionNum += 1;
+      quizGame();
+    }
+  };
+  option2.onclick = function (e) {
+    if (option2.textContent === questionsArr[questionNum].answer) {
+      console.log("test");
+      correctAnswer += 1;
+      questionNum += 1;
+      quizGame();
+    }
+     else{
+        console.log("wrong")
+          questionNum += 1;
+      quizGame();
+    }
+  };
+  option3.onclick = function (e) {
+    if (option3.textContent === questionsArr[questionNum].answer) {
+      console.log("test");
+      correctAnswer += 1;
+      questionNum += 1;
+      quizGame();
+    }
+     else{
+        console.log("wrong")
+          questionNum += 1;
+      quizGame();
+    }
+  };
+  option4.onclick = function (e) {
+    if (option4.textContent === questionsArr[questionNum].answer) {
+      console.log("test");
+      correctAnswer += 1;
+      questionNum += 1;
+      quizGame();
+    }
+     else{
+        console.log("wrong")
+          questionNum += 1;
+      quizGame();
+    }
+  };
+}
 
 //timer function
-function timer(){
-var timerId = setInterval(function () {
-  var time = Number(countDown.textContent);
-  if (time > 0) {
-    countDown.textContent = time - 1;
-  } 
-}, 1000);
+function startTimer() {
+  var timerId = setInterval(function () {
+    var time = Number(countDown.textContent);
+    if (time > 0) {
+      countDown.textContent = time - 1;
+    } else {
+      questionNum += 1;
+    }
+  }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timerId);
 }
