@@ -29,6 +29,7 @@ var questionsArr = [
 ];
 
 //Create start button with ID start-quiz, append to the div quiz
+var timerId;
 var questionNum = 0;
 var correctAnswer = 0;
 var quiz = document.getElementById("quiz");
@@ -45,103 +46,69 @@ startBtn.textContent = "Start Quiz!";
 quiz.appendChild(startBtn);
 
 //Start the game, initial state
-startBtn.onclick =  function () {
+startBtn.onclick = function () {
   startBtn.remove();
   quizGame();
   startTimer();
 };
 
 function quizGame() {
-  question.textContent = questionsArr[questionNum].question;
-  option1.textContent = questionsArr[questionNum].options[0];
-  option2.textContent = questionsArr[questionNum].options[1];
-  option3.textContent = questionsArr[questionNum].options[2];
-  option4.textContent = questionsArr[questionNum].options[3];
-  countDown.textContent = "30";
-  quiz.appendChild(question);
-  quiz.appendChild(divBtns);
-  divBtns.appendChild(option1);
-  divBtns.appendChild(option2);
-  divBtns.appendChild(option3);
-  divBtns.appendChild(option4);
-  quiz.appendChild(countDown);
+  if (questionNum >= questionsArr.length) {
+    console.log("end of game");
+    questionNum = 0;
+    quiz.appendChild(startBtn);
+    question.remove();
+    divBtns.remove();
+    countDown.remove();
+    stopTimer();
+  } else {
+    question.textContent = questionsArr[questionNum].question;
+    option1.textContent = questionsArr[questionNum].options[0];
+    option2.textContent = questionsArr[questionNum].options[1];
+    option3.textContent = questionsArr[questionNum].options[2];
+    option4.textContent = questionsArr[questionNum].options[3];
+    countDown.textContent = "30";
+    quiz.appendChild(question);
+    quiz.appendChild(divBtns);
+    divBtns.appendChild(option1);
+    divBtns.appendChild(option2);
+    divBtns.appendChild(option3);
+    divBtns.appendChild(option4);
+    quiz.appendChild(countDown);
+  }
 }
+
 quiz.addEventListener("click", function (e) {
-    if (
-      e.target.tagName === "BUTTON" &&
-      e.target.textContent !== "Start Quiz!"
-    ) {
-      if (e.target.textContent === questionsArr[questionNum].answer) {
-        console.log("correct");
-        correctAnswer += 1;
-        questionNum += 1;
-        quizGame();
-      } else {
-        console.log("wrong");
-        questionNum += 1;
-        quizGame();
-      }
+  if (e.target.tagName === "BUTTON" && e.target.textContent !== "Start Quiz!") {
+    if (e.target.textContent === questionsArr[questionNum].answer) {
+      console.log("correct");
+      correctAnswer += 1;
+      questionNum += 1;
+      quizGame();
+    } else {
+      console.log("wrong");
+      questionNum += 1;
+      quizGame();
     }
-  });
-  //   //Need to find a way to make this less redundant?
-  //   option1.onclick = function (e) {
-  //     if (option1.textContent === questionsArr[questionNum].answer) {
-  //       console.log("test");
-  //       correctAnswer += 1;
-  //       questionNum += 1;
-  //       quizGame();
-  //     } else {
-  //       console.log("wrong");
-  //       questionNum += 1;
-  //       quizGame();
-  //     }
-  //   };
-  //   option2.onclick = function (e) {
-  //     if (option2.textContent === questionsArr[questionNum].answer) {
-  //       console.log("test");
-  //       correctAnswer += 1;
-  //       questionNum += 1;
-  //       quizGame();
-  //     } else {
-  //       console.log("wrong");
-  //       questionNum += 1;
-  //       quizGame();
-  //     }
-  //   };
-  //   option3.onclick = function (e) {
-  //     if (option3.textContent === questionsArr[questionNum].answer) {
-  //       console.log("test");
-  //       correctAnswer += 1;
-  //       questionNum += 1;
-  //       quizGame();
-  //     } else {
-  //       console.log("wrong");
-  //       questionNum += 1;
-  //       quizGame();
-  //     }
-  //   };
-  //   option4.onclick = function (e) {
-  //     if (option4.textContent === questionsArr[questionNum].answer) {
-  //       console.log("test");
-  //       correctAnswer += 1;
-  //       questionNum += 1;
-  //       quizGame();
-  //     } else {
-  //       console.log("wrong");
-  //       questionNum += 1;
-  //       quizGame();
-  //     }
-  //   };
+    if (questionNum >= questionsArr.length) {
+      questionNum = 0;
+      quizGame();
+    }
+  }
+});
 
-
+//end game function
+function endGame() {}
 //timer function
 function startTimer() {
-  var timerId = setInterval(function () {
+  timerId = setInterval(function () {
     var time = Number(countDown.textContent);
     if (time > 0) {
       countDown.textContent = time - 1;
     } else {
+      console.log("timed out");
       questionNum += 1;
+      quizGame();
     }
   }, 1000);
 }
