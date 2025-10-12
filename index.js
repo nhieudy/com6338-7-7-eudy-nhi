@@ -34,6 +34,7 @@ var questionNum = 0;
 var correctAnswer = 0;
 var score;
 var quiz = document.getElementById("quiz");
+var scoreDisplay = document.createElement("p");
 var startBtn = document.createElement("button");
 var question = document.createElement("p");
 var divBtns = document.createElement("div");
@@ -56,16 +57,7 @@ startBtn.onclick = function () {
 function quizGame() {
   if (questionNum >= questionsArr.length) {
     console.log("end of game");
-      score = (correctAnswer / questionsArr.length) * 100;
-    alert("Your Results: " + Math.round(score) + "%");
-    questionNum = 0;
-    correctAnswer = 0;
-    quiz.appendChild(startBtn);
-    question.remove();
-    divBtns.remove();
-    countDown.remove();
-    stopTimer();
-  
+    endGame();
   } else {
     question.textContent = questionsArr[questionNum].question;
     option1.textContent = questionsArr[questionNum].options[0];
@@ -103,7 +95,19 @@ quiz.addEventListener("click", function (e) {
 });
 
 //end game function
-function endGame() {}
+function endGame() {
+  score = (correctAnswer / questionsArr.length) * 100;
+  scoreDisplay.textContent = "Your Results: " + Math.round(score) + "%";
+  questionNum = 0;
+  correctAnswer = 0;
+  quiz.appendChild(scoreDisplay);
+  quiz.appendChild(startBtn);
+  question.remove();
+  divBtns.remove();
+  countDown.remove();
+  stopTimer();
+}
+
 //timer function
 function startTimer() {
   timerId = setInterval(function () {
