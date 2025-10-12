@@ -32,7 +32,6 @@ var questionsArr = [
 var timerId;
 var questionNum = 0;
 var correctAnswer = 0;
-var score;
 var quiz = document.getElementById("quiz");
 var scoreDisplay = document.createElement("p");
 var startBtn = document.createElement("button");
@@ -44,12 +43,19 @@ var option3 = document.createElement("button");
 var option4 = document.createElement("button");
 var countDown = document.createElement("p");
 startBtn.setAttribute("id", "start-quiz");
+
+var score = localStorage.getItem("previous-score");
+if (score) {
+  scoreDisplay.textContent = "Previous Score: " + score;
+  quiz.appendChild(scoreDisplay);
+}
 startBtn.textContent = "Start Quiz!";
 quiz.appendChild(startBtn);
 
 //Start the game, initial state
 startBtn.onclick = function () {
   startBtn.remove();
+  scoreDisplay.remove();
   quizGame();
   startTimer();
 };
@@ -96,7 +102,8 @@ quiz.addEventListener("click", function (e) {
 
 //end game function
 function endGame() {
-  score = (correctAnswer / questionsArr.length) * 100;
+  var score = (correctAnswer / questionsArr.length) * 100; //save this to local storage
+  localStorage.setItem("previous-score", Math.round(score));
   scoreDisplay.textContent = "Your Results: " + Math.round(score) + "%";
   questionNum = 0;
   correctAnswer = 0;
